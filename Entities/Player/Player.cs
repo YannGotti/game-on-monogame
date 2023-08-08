@@ -113,7 +113,7 @@ public class Player : Entity
 
     private void ItemThrown()
     {
-        var newpostion = position + new Vector2(50, 0);
+        var newpostion = position + new Vector2(50, -15);
         Item iron = new(textureManager.GetTexture("iron"), entityManager);
         iron.SetPosition(newpostion, this.isLeft);
         entityManager.AddEntity(iron);

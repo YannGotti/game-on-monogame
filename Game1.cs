@@ -60,7 +60,7 @@ public class Game1 : Game
         _textureManager.LoadFont("font", "font");
 
 
-        _player = new(new Vector2(500, 605), _textureManager, _entityManager);
+        _player = new(new Vector2(500, 100), _textureManager, _entityManager);
         _entityManager.AddEntity(_player);
 
 
