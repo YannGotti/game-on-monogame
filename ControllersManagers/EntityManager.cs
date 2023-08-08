@@ -21,9 +21,9 @@ public class EntityManager : IEntityManager
 
     public void Draw(SpriteBatch spriteBatch, Rectangle dBorder)
     {
-        foreach (var entity in entities)
+        for (int i = 0; i < entities.Count; i++)
         {
-            entity.Draw(spriteBatch, dBorder);
+            entities[i].Draw(spriteBatch, dBorder);
         }
     }
 

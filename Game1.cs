@@ -42,7 +42,7 @@ public class Game1 : Game
 
         _textureManager = new TextureManager(Content);
         _entityManager = new EntityManager();
-        _worldManager = new WorldManager(_textureManager);
+        _worldManager = new WorldManager(_textureManager, _entityManager);
 
         _camera = new Camera(GraphicsDevice.Viewport);
 
@@ -55,12 +55,15 @@ public class Game1 : Game
 
         _worldManager.LoadWorld("World", _spriteBatch);
 
+
         _textureManager.LoadTexture("iron", "iron");
         _textureManager.LoadFont("font", "font");
 
 
         _player = new(new Vector2(500, 605), _textureManager, _entityManager);
         _entityManager.AddEntity(_player);
+
+
     }
 
     protected override void Update(GameTime gameTime)

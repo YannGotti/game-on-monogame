@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,6 +9,7 @@ public class Player : Entity
 {
     private Vector2 pushDirection;
     private IAnimationController animationController;
+    private Rigidbody rigidbody;
 
     public Player(Vector2 startPos, ITextureManager textureManager, IEntityManager entityManager)
     {
@@ -22,6 +21,8 @@ public class Player : Entity
         this.pushDirection = Vector2.One;
         this.type = EntityType.Player;
         this.collider = new(this, texture.Width, texture.Height);
+        this.massGravity = 50;
+        this.rigidbody = new(this);
         
         animationController = new AnimationController(this);
 
@@ -59,12 +60,10 @@ public class Player : Entity
 
         if (isCrouch){
             speed = 100;
-            position.Y = 610;
         }
 
         if (!isCrouch){
             speed = 200;
-            position.Y = 605;
         }
 
 
@@ -76,12 +75,14 @@ public class Player : Entity
         {
             position.X -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             pushDirection.X = -5;
+            isLeft = true;
         }
 
         if(kstate.IsKeyDown(Keys.D))
         {
             position.X += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             pushDirection.X = 5;
+            isLeft = false;
         }
 
         if(kstate.IsKeyDown(Keys.E))
@@ -95,6 +96,7 @@ public class Player : Entity
 
     public override void Update(GameTime gameTime){
         Move(gameTime);
+        rigidbody.Update(gameTime);
         animationController.Update(gameTime);
         IsMoving();
     }
@@ -102,7 +104,7 @@ public class Player : Entity
 
     public override void Draw(SpriteBatch spriteBatch, Rectangle dBorder){
         
-        if(!InBorder(dBorder)){
+        if(collider.MathBounding = !InBorder(dBorder)){
             return;
         }
         
@@ -111,23 +113,23 @@ public class Player : Entity
 
     private void ItemThrown()
     {
-        Vector2 new_pos = position + new Vector2(100, 0);
+        var newpostion = position + new Vector2(50, 0);
         Item iron = new(textureManager.GetTexture("iron"), entityManager);
-        iron.SetPosition(new_pos);
+        iron.SetPosition(newpostion, this.isLeft);
         entityManager.AddEntity(iron);
     }
 
 
-    private void IntersectsEvent(object sender, Entity e)
+    private void IntersectsEvent(object sender, CollisionEventArgs e)
     {
-        if (e.type == EntityType.Block)
+        if (e.Entity.type == EntityType.Block)
         {
-            e.CollisionOccurred(pushDirection);
+            e.Entity.CollisionOccurred(pushDirection);
         }
 
-        if (e.type == EntityType.Item)
+        if (e.Entity.type == EntityType.Item)
         {
-            Item item = (Item)e;
+            Item item = (Item)e.Entity;
             item.CollisionOccurred(position);
             entityManager.RemoveEntity(item);
         }

@@ -8,5 +8,6 @@ using Microsoft.Xna.Framework;
 
 public class LDtkLevelData
 {
+    public TilesetRectangle[] Tile { get; set; }
 }
 #pragma warning restore

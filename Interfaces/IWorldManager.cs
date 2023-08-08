@@ -8,4 +8,6 @@ public interface IWorldManager
     void LoadWorld(string ldtkFileName, SpriteBatch spriteBatch);
 
     void Draw(SpriteBatch spriteBatch);
+    
+    LDtkLevel GetLevel();
 }

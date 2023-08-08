@@ -10,7 +10,8 @@ public enum EntityType
 {
     Player,
     Item,
-    Block
+    Block,
+    Tiled
 }
 
 public class Entity
@@ -25,12 +26,13 @@ public class Entity
     public ITextureManager textureManager;
     public IEntityManager entityManager;
 
-
     public bool isMoving;
     public bool isFight;
     public bool isCrouch;
 
     public bool isLeft;
+
+    public float massGravity;
 
     private Vector2 previousPosition = Vector2.Zero;
 
@@ -56,12 +58,10 @@ public class Entity
         if (position.X > previousPosition.X)
         {
             isMoving = true;
-            isLeft = false;
         }
         else if (position.X < previousPosition.X)
         {
             isMoving = true;
-            isLeft = true;
         }
         else
         {
@@ -78,7 +78,7 @@ public class Entity
 
     public virtual void Draw(SpriteBatch spriteBatch, Rectangle dBorder){
         
-        if(!InBorder(dBorder)){
+        if(collider.MathBounding = !InBorder(dBorder)){
             return;
         }
 
