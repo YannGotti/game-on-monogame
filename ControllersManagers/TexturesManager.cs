@@ -2,13 +2,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using LDtk;
+
 
 namespace MyGame;
 
 public class TextureManager : ITextureManager
 {
-    private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
-    private Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
+    private Dictionary<string, Texture2D> textures = new();
+    private Dictionary<string, SpriteFont> fonts = new();
+    private Dictionary<string, LDtkFile> worldsFiles = new();
 
     private ContentManager content;
 
@@ -17,10 +20,15 @@ public class TextureManager : ITextureManager
     public TextureManager(ContentManager content)
     {
         this.content = content;
-        InitializeTexture();
+        InitializeAnimationTexture();
+        InitializeWorldTexture();
     }
 
-    void InitializeTexture(){
+    private void InitializeWorldTexture(){
+        worldsFiles.Add("World", LDtkFile.FromFile("Maps", content));
+    }
+
+    private void InitializeAnimationTexture(){
         animationFrames = new();
         Texture2D[] runAnimations = new Texture2D[9];
         Texture2D[] idleAnimations = new Texture2D[9];
@@ -93,6 +101,27 @@ public class TextureManager : ITextureManager
         if (fonts.ContainsKey(name))
         {
             return fonts[name];
+        }
+        return null;
+    }
+
+    public void LoadWorldFile(string name, string path)
+    {
+        if (!worldsFiles.ContainsKey(name))
+        {
+            worldsFiles[name] = content.Load<LDtkFile>(path);
+        }
+        else
+        {
+            // Обработка ситуации, когда текстура уже загружена
+        }
+    }
+
+    public LDtkFile GetWorldFile(string name)
+    {
+        if (worldsFiles.ContainsKey(name))
+        {
+            return worldsFiles[name];
         }
         return null;
     }

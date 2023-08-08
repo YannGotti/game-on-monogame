@@ -59,10 +59,12 @@ public class Player : Entity
 
         if (isCrouch){
             speed = 100;
+            position.Y = 610;
         }
 
         if (!isCrouch){
             speed = 200;
+            position.Y = 605;
         }
 
 

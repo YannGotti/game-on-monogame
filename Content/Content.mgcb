@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\..\..\.nuget\packages\ldtkmonogame.contentpipeline\1.1.0\lib\net6.0\LDtk.ContentPipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -451,4 +452,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:iron.png
+
+#begin Maps.ldtk
+/importer:LDtkFileImporter
+/processor:LDtkFileProcessor
+/build:Maps.ldtk
+
+#begin TX Tileset Ground.png
+/copy:TX Tileset Ground.png
 

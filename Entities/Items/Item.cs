@@ -19,7 +19,6 @@ public class Item : Entity
 
     public override void CollisionOccurred(Vector2 posUser){
         this.position = posUser;
-        Debug.WriteLine("Подбор");
     }
 
 }

@@ -4,12 +4,18 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 
+using LDtk;
+using LDtk.Renderer;
+using LDtkTypes;
+
 namespace MyGame;
 
 public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    
 
     private Camera _camera;
 
@@ -18,6 +24,8 @@ public class Game1 : Game
     private ITextureManager _textureManager;
 
     private IEntityManager _entityManager;
+
+    private IWorldManager _worldManager;
 
     public Game1()
     {
@@ -28,8 +36,13 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
+        _graphics.PreferredBackBufferHeight = 720;
+        _graphics.PreferredBackBufferWidth = 1280;
+        _graphics.ApplyChanges();
+
         _textureManager = new TextureManager(Content);
         _entityManager = new EntityManager();
+        _worldManager = new WorldManager(_textureManager);
 
         _camera = new Camera(GraphicsDevice.Viewport);
 
@@ -40,10 +53,13 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        _worldManager.LoadWorld("World", _spriteBatch);
+
         _textureManager.LoadTexture("iron", "iron");
         _textureManager.LoadFont("font", "font");
 
-        _player = new(new Vector2(500, 500), _textureManager, _entityManager);
+
+        _player = new(new Vector2(500, 605), _textureManager, _entityManager);
         _entityManager.AddEntity(_player);
     }
 
@@ -66,6 +82,8 @@ public class Game1 : Game
         _spriteBatch.Begin(transformMatrix: _camera.Transform);
 
         Rectangle dBorder = _camera.GetCameraBounds(GraphicsDevice.Viewport);
+
+        _worldManager.Draw(_spriteBatch);
 
         _entityManager.Draw(_spriteBatch, dBorder);
 

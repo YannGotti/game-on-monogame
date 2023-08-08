@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
+using LDtk;
 
 namespace MyGame;
 
@@ -12,4 +13,7 @@ public interface ITextureManager
 
     void LoadFont(string name, string path);
     SpriteFont GetFont(string name);
+
+    void LoadWorldFile(string name, string path);
+    LDtkFile GetWorldFile(string name);
 }
