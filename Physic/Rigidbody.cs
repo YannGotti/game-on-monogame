@@ -44,6 +44,11 @@ public class Rigidbody
             return;
         }
 
+        if (e.Side == CollisionSide.None)
+        {
+            return;
+        }
+
         if(e.Side == CollisionSide.Top)
         {
             //Debug.WriteLine("Top");
@@ -55,18 +60,16 @@ public class Rigidbody
             collider.UpdateBoundingBox();
         }
 
-        if(e.Side == CollisionSide.Left)
-        {
-            //owner.isLeft = true;
-            owner.position.X = e.Entity.collider.GetBoundingBox().Left + owner.collider.GetBoundingBox().Width;
-            //e.Entity.position.X = owner.collider.GetBoundingBox().Left - e.Entity.collider.GetBoundingBox().Width;
-        }
-
         if(e.Side == CollisionSide.Right)
         {
-            //owner.isLeft = false;
-            owner.position.X = e.Entity.collider.GetBoundingBox().Left - owner.collider.GetBoundingBox().Width;
-            //e.Entity.position.X = owner.collider.GetBoundingBox().Right + 1;
+            e.Entity.position.X = owner.collider.GetBoundingBox().Right;
+            collider.UpdateBoundingBox();
+        }
+
+        if(e.Side == CollisionSide.Left)
+        {
+            e.Entity.position.X = owner.collider.GetBoundingBox().Left - e.Entity.collider.GetBoundingBox().Width;
+            collider.UpdateBoundingBox();
         }
 
 

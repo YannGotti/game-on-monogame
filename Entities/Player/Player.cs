@@ -14,7 +14,7 @@ public class Player : GameObject
     public Player(Vector2 startPos, ITextureManager textureManager, IGameObjectManager gameObjectManager)
     {
         this.position = startPos;
-        this.speed = 200;
+        this.speed = 150;
         this.textureManager = textureManager;
         this.gameObjectManager = gameObjectManager;
         this.texture = textureManager.GetAnimationFrames()["run"][0];
@@ -58,11 +58,11 @@ public class Player : GameObject
         }
 
         if (isCrouch){
-            speed = 100;
+            speed = 75;
         }
 
         if (!isCrouch){
-            speed = 200;
+            speed = 150;
         }
 
 
@@ -110,7 +110,7 @@ public class Player : GameObject
             return;
         }
         
-        collider.Draw(spriteBatch);
+        //collider.Draw(spriteBatch);
         animationController.Draw(spriteBatch, position);
     }
 

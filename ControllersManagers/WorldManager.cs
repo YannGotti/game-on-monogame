@@ -4,6 +4,7 @@ using LDtk.Renderer;
 using LDtkTypes;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace MyGame;
 
@@ -32,10 +33,34 @@ public class WorldManager : IWorldManager
         {
             _renderer.PrerenderLevel(level);
             LayerInstance[] grid =  level.LayerInstances;
-            
-            foreach (var tile  in grid[0].GridTiles)
+            List<TileInstance> tileList = new();
+
+            for (int i = 0; i < grid[0].GridTiles.Length; i++)
             {
-                gameObjectManager.AddEntity(new Tile(new(tile.Px.X, tile.Px.Y), 16, gameObjectManager));
+                if (tileList.Count == 0)
+                {
+                    tileList.Add(grid[0].GridTiles[i]);
+                    continue;
+                }
+
+                if (grid[0].GridTiles[i].Px.Y == grid[0].GridTiles[i - 1].Px.Y)
+                {
+                    tileList.Add(grid[0].GridTiles[i]);
+                }
+                else
+                {
+                    gameObjectManager.AddEntity(
+                        new Tile(
+                            new
+                            (
+                                tileList[0].Px.X,
+                                tileList[0].Px.Y),
+                                (tileList[tileList.Count - 1].Px.X - tileList[0].Px.X) + 16,  16 * 2,
+                                gameObjectManager
+                            )
+                        );
+                    tileList = new();
+                }
             }
             
         }

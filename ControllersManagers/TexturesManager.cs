@@ -34,6 +34,7 @@ public class TextureManager : ITextureManager
         Texture2D[] idleAnimations = new Texture2D[9];
         Texture2D[] attack_1Animations = new Texture2D[5];
         Texture2D[] crouchAnimations = new Texture2D[7];
+        Texture2D[] pushAnimations = new Texture2D[3];
 
         for (int i = 0; i < 9; i++)
         {
@@ -49,6 +50,11 @@ public class TextureManager : ITextureManager
         for (int i = 0; i < 7; i++)
         {
             crouchAnimations[i] = content.Load<Texture2D>($"Animations\\Player\\Crouch\\{i + 1}");
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            pushAnimations[i] = content.Load<Texture2D>($"Animations\\Player\\Push\\{i + 1}");
         }
 
 

@@ -42,7 +42,7 @@ public class Item : GameObject
     public override void Update(GameTime gameTime){
         IsMoving();
 
-        rigidbody.Update(gameTime);
+        //rigidbody.Update(gameTime);
     }
 
 }

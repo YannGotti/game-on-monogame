@@ -9,13 +9,13 @@ namespace MyGame;
 
 public class Tile : GameObject
 {
-    public Tile(Vector2 position, int sizeTile, IGameObjectManager gameObjectManager)
+    public Tile(Vector2 position, int width, int height, IGameObjectManager gameObjectManager)
     {
         this.gameObjectManager = gameObjectManager;
 
         this.type = GameObjectType.Tiled;
         this.position = position;
-        this.collider = new(this, sizeTile, sizeTile);
+        this.collider = new(this, width, height);
     }
 
     public  override void Update(GameTime gameTime)
@@ -29,6 +29,6 @@ public class Tile : GameObject
             return;
         }
 
-        collider.Draw(spriteBatch);
+        //collider.Draw(spriteBatch);
     }
 }

@@ -61,6 +61,17 @@ public class Game1 : Game
 
         _player = new(new Vector2(500, 100), _textureManager, _gameObjectManager);
         _gameObjectManager.AddEntity(_player);
+        
+        _gameObjectManager.AddEntity
+        (
+            new Box
+            (
+                new Vector2(300, 0), _textureManager.GetTexture("box"), _gameObjectManager
+            )
+        );
+
+        _gameObjectManager.AddEntity(new Box(new Vector2(300, 50), _textureManager.GetTexture("box"), _gameObjectManager));
+
         _gameObjectManager.AddEntity
         (
             new Box
@@ -68,6 +79,7 @@ public class Game1 : Game
                 new Vector2(600, 0), _textureManager.GetTexture("box"), _gameObjectManager
             )
         );
+        
         
         _gameObjectManager.AddEntity(_player);
     }

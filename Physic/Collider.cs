@@ -102,32 +102,51 @@ public class Collider : ICollider
                 continue;
             }
 
+            
+
+
             if (!Intersects(entities[i].collider))
             {
                 continue;
             }
 
+            
+
+            IntersectsEvent?.Invoke(this, new(entities[i], SetSide(entities[i])));
+        }
+    }
+
+    private CollisionSide SetSide(GameObject obj)
+    {
             CollisionSide collisionSide = CollisionSide.None;
 
-            if (boundingBox.Bottom > entities[i].collider.boundingBox.Top && boundingBox.Top < entities[i].collider.boundingBox.Top)
+            if (obj.collider.IsTrigger)
+            {
+                return collisionSide;
+            }
+
+            
+
+            if (boundingBox.Bottom > obj.collider.boundingBox.Top && boundingBox.Bottom < obj.collider.boundingBox.Bottom)
             {
                 collisionSide = CollisionSide.Bottom;
             }
-            else if (boundingBox.Top < entities[i].collider.boundingBox.Bottom && boundingBox.Bottom > entities[i].collider.boundingBox.Bottom)
-            {
-                collisionSide = CollisionSide.Top;
-            }
-            else if (boundingBox.Right > entities[i].collider.boundingBox.Left && boundingBox.Left < entities[i].collider.boundingBox.Left)
+
+            if (obj.type == GameObjectType.Tiled) return collisionSide;
+
+            if (boundingBox.Right > obj.collider.boundingBox.Left && boundingBox.Right < obj.collider.boundingBox.Right)
             {
                 collisionSide = CollisionSide.Right;
             }
-            else if (boundingBox.Left < entities[i].collider.boundingBox.Right && boundingBox.Right > entities[i].collider.boundingBox.Right)
+
+            if (boundingBox.Left < obj.collider.boundingBox.Right && boundingBox.Left > obj.collider.boundingBox.Left)
             {
                 collisionSide = CollisionSide.Left;
             }
+            
 
-            IntersectsEvent?.Invoke(this, new(entities[i], collisionSide));
-        }
+
+            return collisionSide;
     }
 
     private bool Intersects(Collider otherCollider)

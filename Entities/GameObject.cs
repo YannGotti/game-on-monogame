@@ -117,7 +117,7 @@ public abstract class GameObject
 
         spriteBatch.Draw(texture, position, Color.White);
 
-        collider.Draw(spriteBatch);
+        //collider.Draw(spriteBatch);
 
 
     }
