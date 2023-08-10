@@ -13,12 +13,12 @@ public class WorldManager : IWorldManager
     private LDtkRenderer _renderer;
 
     private ITextureManager textureManager;
-    private IEntityManager entityManager;
+    private IGameObjectManager gameObjectManager;
 
-    public WorldManager(ITextureManager textureManager, IEntityManager entityManager)
+    public WorldManager(ITextureManager textureManager, IGameObjectManager gameObjectManager)
     {
         this.textureManager = textureManager;
-        this.entityManager = entityManager;
+        this.gameObjectManager = gameObjectManager;
     }
 
 
@@ -35,7 +35,7 @@ public class WorldManager : IWorldManager
             
             foreach (var tile  in grid[0].GridTiles)
             {
-                entityManager.AddEntity(new Tile(new(tile.Px.X, tile.Px.Y + 34), 32, entityManager));
+                gameObjectManager.AddEntity(new Tile(new(tile.Px.X, tile.Px.Y), 16, gameObjectManager));
             }
             
         }

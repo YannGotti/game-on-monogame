@@ -15,15 +15,13 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    
-
     private Camera _camera;
 
     private Player _player;
 
     private ITextureManager _textureManager;
 
-    private IEntityManager _entityManager;
+    private IGameObjectManager _gameObjectManager;
 
     private IWorldManager _worldManager;
 
@@ -31,7 +29,7 @@ public class Game1 : Game
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
-        IsMouseVisible = false;
+        IsMouseVisible = true;
     }
 
     protected override void Initialize()
@@ -41,8 +39,8 @@ public class Game1 : Game
         _graphics.ApplyChanges();
 
         _textureManager = new TextureManager(Content);
-        _entityManager = new EntityManager();
-        _worldManager = new WorldManager(_textureManager, _entityManager);
+        _gameObjectManager = new GameObjectManager();
+        _worldManager = new WorldManager(_textureManager, _gameObjectManager);
 
         _camera = new Camera(GraphicsDevice.Viewport);
 
@@ -57,13 +55,21 @@ public class Game1 : Game
 
 
         _textureManager.LoadTexture("iron", "iron");
+        _textureManager.LoadTexture("box", "Objects\\box");
         _textureManager.LoadFont("font", "font");
 
 
-        _player = new(new Vector2(500, 100), _textureManager, _entityManager);
-        _entityManager.AddEntity(_player);
-
-
+        _player = new(new Vector2(500, 100), _textureManager, _gameObjectManager);
+        _gameObjectManager.AddEntity(_player);
+        _gameObjectManager.AddEntity
+        (
+            new Box
+            (
+                new Vector2(600, 0), _textureManager.GetTexture("box"), _gameObjectManager
+            )
+        );
+        
+        _gameObjectManager.AddEntity(_player);
     }
 
     protected override void Update(GameTime gameTime)
@@ -71,7 +77,7 @@ public class Game1 : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        _entityManager.Update(gameTime);
+        _gameObjectManager.Update(gameTime);
 
         _camera.Update(_player.position, GraphicsDevice.Viewport);
 
@@ -80,7 +86,7 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.Black);
 
         _spriteBatch.Begin(transformMatrix: _camera.Transform);
 
@@ -88,7 +94,7 @@ public class Game1 : Game
 
         _worldManager.Draw(_spriteBatch);
 
-        _entityManager.Draw(_spriteBatch, dBorder);
+        _gameObjectManager.Draw(_spriteBatch, dBorder);
 
         _spriteBatch.End();
 

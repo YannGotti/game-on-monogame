@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MyGame;
 
-public interface IEntityManager
+public interface IGameObjectManager
 {
-    void AddEntity(Entity entity);
-    void RemoveEntity(Entity entity);
+    void AddEntity(GameObject entity);
+    void RemoveEntity(GameObject entity);
     void Update(GameTime gameTime);
     void Draw(SpriteBatch spriteBatch, Rectangle dBorder);
 
-    List<Entity> GetEntities();
+    List<GameObject> GetEntities();
 }

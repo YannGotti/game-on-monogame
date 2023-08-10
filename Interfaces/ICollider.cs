@@ -7,4 +7,6 @@ public interface ICollider
 {
     void Update();
     Rectangle GetBoundingBox();
+
+    void UpdateBoundingBox();
 }

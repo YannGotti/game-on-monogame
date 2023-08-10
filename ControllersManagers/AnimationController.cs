@@ -10,10 +10,10 @@ public class AnimationController : IAnimationController
     private int currentFrame;
     private float frameTime;
     private float timeElapsed;
-    private Entity owner;
+    private GameObject owner;
     private Dictionary<string, Texture2D[]> animationFrames;
 
-    public AnimationController(Entity owner)
+    public AnimationController(GameObject owner)
     {
         this.frameTime = 0.1f;
         currentFrame = 0;
@@ -63,8 +63,8 @@ public class AnimationController : IAnimationController
             frames = new Texture2D[1]{ animationFrames["crouch"][0] };
         }
 
-        owner.texture = frames[0];
-        
+        owner.texture = frames[0];     
+        owner.collider.UpdateBoundingBox();   
     }
 
     public void Draw(SpriteBatch spriteBatch, Vector2 position)
@@ -79,7 +79,7 @@ public class AnimationController : IAnimationController
                     position,
                     null,
                     Color.White, 0f,
-                    new Vector2(frames[currentFrame].Width / 2, frames[currentFrame].Height / 2),
+                    Vector2.One,
                     Vector2.One, SpriteEffects.FlipHorizontally, 0f
                 );
             }
@@ -92,7 +92,7 @@ public class AnimationController : IAnimationController
                     position,
                     null,
                     Color.White, 0f,
-                    new Vector2(frames[currentFrame].Width / 2, frames[currentFrame].Height / 2),
+                    Vector2.One,
                     Vector2.One, SpriteEffects.None, 0f
                 );
             }

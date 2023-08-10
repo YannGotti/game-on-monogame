@@ -6,25 +6,27 @@ using System.Diagnostics;
 
 namespace MyGame;
 
-public enum EntityType
+public enum GameObjectType
 {
     Player,
     Item,
     Block,
-    Tiled
+    Tiled,
+    Box
 }
 
-public class Entity
+public abstract class GameObject
 {
     public float speed = 200;
     public Vector2 position;
     public Texture2D texture;
 
-    public EntityType type;
+    public GameObjectType type;
     public Collider collider;
 
     public ITextureManager textureManager;
-    public IEntityManager entityManager;
+    public IGameObjectManager gameObjectManager;
+    public SpriteBatch spriteBatch;
 
     public bool isMoving;
     public bool isFight;
@@ -36,20 +38,20 @@ public class Entity
 
     private Vector2 previousPosition = Vector2.Zero;
 
-    public Entity()
+    public GameObject()
     {
     }
 
-    public Entity(Vector2 startPos)
+    public GameObject(Vector2 startPos)
     {
         this.position = startPos;
     }
 
-    public Entity(Vector2 startPos, ITextureManager textureManager, IEntityManager entityManager)
+    public GameObject(Vector2 startPos, ITextureManager textureManager, IGameObjectManager entityManager)
     {
         this.position = startPos;
         this.textureManager = textureManager;
-        this.entityManager = entityManager;
+        this.gameObjectManager = entityManager;
 
     }
 
@@ -67,7 +69,7 @@ public class Entity
         {
             isMoving = false;
         }
-
+        
         previousPosition = position;
     }
 
@@ -75,22 +77,48 @@ public class Entity
         IsMoving();
     }
 
-
-    public virtual void Draw(SpriteBatch spriteBatch, Rectangle dBorder){
-        
-        if(collider.MathBounding = !InBorder(dBorder)){
+    public void DrawData(string data)
+    {
+        if (spriteBatch == null)
+        {
             return;
         }
 
-        spriteBatch.Draw
-        (
-            texture,
-            position,
-            null,
-            Color.White, 0f,
-            new Vector2(texture.Width / 2, texture.Height / 2),
-            Vector2.One, SpriteEffects.None, 0f
-        );
+        if (textureManager == null)
+        {
+            return;
+        }
+
+        SpriteFont font = textureManager.GetFont("font");
+        spriteBatch.DrawString(font, data, new Vector2(300, 300), Color.Red);
+    }
+
+    public virtual void Draw(SpriteBatch spriteBatch, Rectangle dBorder){
+        
+        if (spriteBatch == null) 
+        {
+            this.spriteBatch = spriteBatch;
+        }
+
+        if(collider.MathBounding = !InBorder(dBorder))
+        {
+            return;
+        }
+
+        //spriteBatch.Draw
+        //(
+        //    texture,
+        //    position,
+        //    null,
+        //    Color.White, 0f,
+        //    new Vector2(texture.Width / 2, texture.Height / 2),
+        //    Vector2.One, SpriteEffects.None, 0f
+        //);
+
+        spriteBatch.Draw(texture, position, Color.White);
+
+        collider.Draw(spriteBatch);
+
 
     }
 

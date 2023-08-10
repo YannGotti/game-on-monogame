@@ -3,21 +3,36 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MyGame;
-public class Item : Entity
+public class Item : GameObject
 {
     private Rigidbody rigidbody;
-    public Item(Texture2D Texture, IEntityManager entityManager)
+
+    public Item(Texture2D Texture, IGameObjectManager gameObjectManager)
     {
-        this.entityManager = entityManager;
+        this.gameObjectManager = gameObjectManager;
         this.texture = Texture;
-        this.type = EntityType.Item;
-        this.collider = new(this, Texture.Width, Texture.Height);
+        this.type = GameObjectType.Item;
+        this.collider = new(this, texture.Width, texture.Height);
         this.massGravity = 20;
         rigidbody = new(this);
+
+        this.collider.IsTrigger = true;
+        rigidbody.UseGravity = false;
     }
 
-    public void SetPosition(Vector2 Position, bool isLeft){
-        this.position = Position;
+    public void SetPosition(Vector2 pos, bool isLeft)
+    {
+        position.Y = pos.Y - 10;
+
+        if(isLeft)
+        {
+            position.X = pos.X - 60;
+        }
+
+        if(!isLeft)
+        {
+            position.X = pos.X + 60;
+        }
     }
 
     public override void CollisionOccurred(Vector2 posUser){
@@ -28,27 +43,6 @@ public class Item : Entity
         IsMoving();
 
         rigidbody.Update(gameTime);
-    }
-
-    public override void Draw(SpriteBatch spriteBatch, Rectangle dBorder){
-
-
-
-        if(collider.MathBounding = !InBorder(dBorder))
-        {
-            return;
-        }
-
-        spriteBatch.Draw
-        (
-            texture,
-            position,
-            null,
-            Color.White, 0f,
-            new Vector2(texture.Width / 2, texture.Height / 2),
-            Vector2.One, SpriteEffects.None, 0f
-        );
-
     }
 
 }

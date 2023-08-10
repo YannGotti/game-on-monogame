@@ -7,13 +7,13 @@ using System.Diagnostics;
 namespace MyGame;
 
 
-public class Tile : Entity
+public class Tile : GameObject
 {
-    public Tile(Vector2 position, int sizeTile, IEntityManager entityManager)
+    public Tile(Vector2 position, int sizeTile, IGameObjectManager gameObjectManager)
     {
-        this.entityManager = entityManager;
+        this.gameObjectManager = gameObjectManager;
 
-        this.type = EntityType.Tiled;
+        this.type = GameObjectType.Tiled;
         this.position = position;
         this.collider = new(this, sizeTile, sizeTile);
     }
@@ -28,5 +28,7 @@ public class Tile : Entity
         if(collider.MathBounding = !InBorder(dBorder)){
             return;
         }
+
+        collider.Draw(spriteBatch);
     }
 }

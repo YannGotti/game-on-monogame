@@ -3,12 +3,11 @@ using Microsoft.Xna.Framework;
 namespace MyGame;
 public class Rigidbody
 {
-    private Entity owner;
+    private GameObject owner;
     private Collider collider;
     public bool UseGravity {get; set;}
-
-
-    public Rigidbody(Entity owner)
+    
+    public Rigidbody(GameObject owner)
     {
         this.owner = owner;
         UseGravity = true;
@@ -40,6 +39,7 @@ public class Rigidbody
 
     private void CollisionOccurred(object sender, CollisionEventArgs e){
 
+        owner.DrawData(e.Side.ToString());
         if(collider.IsTrigger){
             return;
         }
@@ -51,7 +51,8 @@ public class Rigidbody
 
         if(e.Side == CollisionSide.Bottom)
         {
-            owner.position.Y = e.Entity.collider.GetBoundingBox().Top - owner.collider.GetBoundingBox().Height;
+            owner.position.Y = e.Entity.position.Y - owner.texture.Height;
+            collider.UpdateBoundingBox();
         }
 
         if(e.Side == CollisionSide.Left)

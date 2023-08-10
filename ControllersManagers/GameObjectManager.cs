@@ -5,9 +5,9 @@ using System.Diagnostics;
 
 namespace MyGame;
 
-public class EntityManager : IEntityManager
+public class GameObjectManager : IGameObjectManager
 {
-    private List<Entity> entities = new List<Entity>();
+    private List<GameObject> entities = new List<GameObject>();
 
     public void Update(GameTime gameTime)
     {
@@ -27,12 +27,12 @@ public class EntityManager : IEntityManager
         }
     }
 
-    public List<Entity> GetEntities()
+    public List<GameObject> GetEntities()
     {
         return entities;
     }
 
-    public void AddEntity(Entity entity) => entities.Add(entity);
+    public void AddEntity(GameObject entity) => entities.Add(entity);
 
-    public void RemoveEntity(Entity entity) => entities.Remove(entity);
+    public void RemoveEntity(GameObject entity) => entities.Remove(entity);
 }
