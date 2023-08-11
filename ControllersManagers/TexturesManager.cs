@@ -29,39 +29,24 @@ public class TextureManager : ITextureManager
     }
 
     private void InitializeAnimationTexture(){
-        animationFrames = new();
-        Texture2D[] runAnimations = new Texture2D[9];
-        Texture2D[] idleAnimations = new Texture2D[9];
-        Texture2D[] attack_1Animations = new Texture2D[5];
-        Texture2D[] crouchAnimations = new Texture2D[7];
-        Texture2D[] pushAnimations = new Texture2D[3];
-
-        for (int i = 0; i < 9; i++)
+        animationFrames = new Dictionary<string, Texture2D[]>()
         {
-            runAnimations[i] = content.Load<Texture2D>($"Animations\\Player\\Run\\{i + 1}");
-            idleAnimations[i] = content.Load<Texture2D>($"Animations\\Player\\Idle\\{i + 1}");
-        }
+            { "run", LoadAnimationFrames("Run", 9) },
+            { "idle", LoadAnimationFrames("Idle", 9) },
+            { "attack_1", LoadAnimationFrames("Attack_1", 5) },
+            { "crouch", LoadAnimationFrames("Crouch", 7) },
+            { "push", LoadAnimationFrames("Push", 3) }
+        };
+    }
 
-        for (int i = 0; i < 5; i++)
+    private Texture2D[] LoadAnimationFrames(string animationName, int frameCount)
+    {
+        Texture2D[] animationFrames = new Texture2D[frameCount];
+        for (int i = 0; i < frameCount; i++)
         {
-            attack_1Animations[i] = content.Load<Texture2D>($"Animations\\Player\\Attack_1\\{i + 1}");
+            animationFrames[i] = content.Load<Texture2D>($"Animations\\Player\\{animationName}\\{i + 1}");
         }
-
-        for (int i = 0; i < 7; i++)
-        {
-            crouchAnimations[i] = content.Load<Texture2D>($"Animations\\Player\\Crouch\\{i + 1}");
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            pushAnimations[i] = content.Load<Texture2D>($"Animations\\Player\\Push\\{i + 1}");
-        }
-
-
-        animationFrames.Add("run", runAnimations);
-        animationFrames.Add("idle", idleAnimations);
-        animationFrames.Add("attack_1", attack_1Animations);
-        animationFrames.Add("crouch", crouchAnimations);
+        return animationFrames;
     }
 
     public void LoadTexture(string name, string path)

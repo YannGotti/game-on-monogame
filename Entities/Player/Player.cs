@@ -10,6 +10,7 @@ public class Player : GameObject
     private Vector2 pushDirection;
     private IAnimationController animationController;
     private Rigidbody rigidbody;
+    public bool isPush;
 
     public Player(Vector2 startPos, ITextureManager textureManager, IGameObjectManager gameObjectManager)
     {
@@ -21,7 +22,7 @@ public class Player : GameObject
         this.pushDirection = Vector2.One;
         this.type = GameObjectType.Player;
         this.collider = new(this, texture.Width, texture.Height);
-        this.massGravity = 50;
+        this.massGravity = 10;
         this.rigidbody = new(this);
 
         animationController = new AnimationController(this);
@@ -110,7 +111,7 @@ public class Player : GameObject
             return;
         }
         
-        //collider.Draw(spriteBatch);
+        collider.Draw(spriteBatch);
         animationController.Draw(spriteBatch, position);
     }
 
@@ -124,9 +125,16 @@ public class Player : GameObject
 
     private void IntersectsEvent(object sender, CollisionEventArgs e)
     {
+        isPush = false;
+
         if (e.Entity.type == GameObjectType.Block)
         {
             e.Entity.CollisionOccurred(pushDirection);
+        }
+
+        if (e.Entity.type == GameObjectType.Box)
+        {
+            isPush = true;
         }
 
         if (e.Entity.type == GameObjectType.Item)
@@ -135,5 +143,6 @@ public class Player : GameObject
             item.CollisionOccurred(position);
             gameObjectManager.RemoveEntity(item);
         }
+
     }
 }

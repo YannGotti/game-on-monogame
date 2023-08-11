@@ -40,38 +40,26 @@ public class Rigidbody
     private void CollisionOccurred(object sender, CollisionEventArgs e){
 
         owner.DrawData(e.Side.ToString());
-        if(collider.IsTrigger){
-            return;
-        }
-
-        if (e.Side == CollisionSide.None)
+    
+        if (collider.IsTrigger || e.Side == CollisionSide.None)
         {
             return;
         }
 
-        if(e.Side == CollisionSide.Top)
+        if (e.Side == CollisionSide.Bottom)
         {
-            //Debug.WriteLine("Top");
+            owner.position.Y = e.Entity.position.Y - (owner.type == GameObjectType.Player ? owner.texture.Height / 2 : owner.texture.Height);
         }
-
-        if(e.Side == CollisionSide.Bottom)
-        {
-            owner.position.Y = e.Entity.position.Y - owner.texture.Height;
-            collider.UpdateBoundingBox();
-        }
-
-        if(e.Side == CollisionSide.Right)
+        else if (e.Side == CollisionSide.Right)
         {
             e.Entity.position.X = owner.collider.GetBoundingBox().Right;
-            collider.UpdateBoundingBox();
         }
-
-        if(e.Side == CollisionSide.Left)
+        else if (e.Side == CollisionSide.Left)
         {
             e.Entity.position.X = owner.collider.GetBoundingBox().Left - e.Entity.collider.GetBoundingBox().Width;
-            collider.UpdateBoundingBox();
         }
 
+        collider.UpdateBoundingBox();
 
     }
     

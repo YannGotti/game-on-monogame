@@ -63,6 +63,19 @@ public class AnimationController : IAnimationController
             frames = new Texture2D[1]{ animationFrames["crouch"][0] };
         }
 
+
+        if (!owner.isCrouch && owner.type == GameObjectType.Player && animationFrames["push"] != null)
+        {
+            Player player = (Player)owner;
+
+            if (player.isPush)
+            {
+                frames = animationFrames["push"];
+                return;
+            }
+
+        }
+
         owner.texture = frames[0];     
         owner.collider.UpdateBoundingBox();   
     }
@@ -79,7 +92,7 @@ public class AnimationController : IAnimationController
                     position,
                     null,
                     Color.White, 0f,
-                    Vector2.One,
+                    new Vector2(frames[currentFrame].Width / 2, frames[currentFrame].Height / 2),
                     Vector2.One, SpriteEffects.FlipHorizontally, 0f
                 );
             }
@@ -92,7 +105,7 @@ public class AnimationController : IAnimationController
                     position,
                     null,
                     Color.White, 0f,
-                    Vector2.One,
+                    new Vector2(frames[currentFrame].Width / 2, frames[currentFrame].Height / 2),
                     Vector2.One, SpriteEffects.None, 0f
                 );
             }

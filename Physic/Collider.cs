@@ -54,10 +54,10 @@ public class Collider : ICollider
             return;
         }
 
-        if (owner.type == GameObjectType.Tiled)
+        if (owner.type == GameObjectType.Player)
         {
-            boundingBox.X = (int)owner.position.X;
-            boundingBox.Y = (int)owner.position.Y;
+            boundingBox.X = (int)owner.position.X - (width / 2);
+            boundingBox.Y = (int)owner.position.Y - (height / 2);
         }
         else
         {
@@ -160,7 +160,14 @@ public class Collider : ICollider
 
     public void UpdateBoundingBox()
     {
-        boundingBox = new Rectangle((int)owner.position.X, (int)owner.position.Y, owner.texture.Width, owner.texture.Height);
+        if (owner.type == GameObjectType.Player){
+             
+            boundingBox = new Rectangle((int)owner.position.X - (width / 2), (int)owner.position.Y - (height / 2), owner.texture.Width, owner.texture.Height);
+        }
+        else
+        {
+            boundingBox = new Rectangle((int)owner.position.X, (int)owner.position.Y, owner.texture.Width, owner.texture.Height);
+        }
         width = owner.texture.Width;
         height = owner.texture.Height;
     }
